@@ -44,6 +44,7 @@
     </div>
 
     <script>
+        
         const url = "https://raw.githubusercontent.com/wuguanyiyi/JS-iPad-Air-AJAX/main/iPad.json";
         let ipad = {};
         function changecolor(){
@@ -67,27 +68,23 @@
             document.querySelector("#search").addEventListener("click", requestJSON);
         }
         let ipadArry = [];
+        let price,picture;
         let xhr = new XMLHttpRequest(); //使用XMLHttpRequest讀取json數據
         function requestJSON(){
             xhr.onload = function(){
                 ipadArray=this.response;
-               
-                this.price = price;
-                this.picture = picture;
-
                 
-                        
-               
+    
                 let query = ipadArray.filter(item => item.color == ipad.color && item.storage == ipad.storage && item.network == ipad.network);
                 // document.getElementById('price').innerHTML = `NT$ ${query[0]}`;
                 // document.getElementById('img').src = query[0];
 
 
                 document.getElementById('price').innerHTML = query[0].price;
-                document.getElementById('img').src = query[0].picture
+                document.getElementById('img').src = query[0].picture;
                         
             }
-            xhr.open("GET",'https://raw.githubusercontent.com/wuguanyiyi/JS-iPad-Air-AJAX/main/iPad.json');
+            xhr.open("GET",url);
             xhr.responseType = "json";
             xhr.send();
         }
