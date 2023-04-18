@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/iPad Air.css">
+    <link rel="stylesheet" href="./iPad Air.css">
 </head>
 <body>
     <div class="container">
@@ -18,23 +18,23 @@
             
             <select id="color" class="op-style" onchange="changecolor()">
                 <option>請選擇顏色</option>
-                <option value="">太空灰色</option>
-                <option value="">藍色</option>
-                <option value="">粉紅色</option>
-                <option value="">紫色</option>
-                <option value="">星光色</option>
+                <option value="太空灰色">太空灰色</option>
+                <option value="藍色">藍色</option>
+                <option value="粉紅色">粉紅色</option>
+                <option value="紫色">紫色</option>
+                <option value="星光色">星光色</option>
             </select>
             
             <select id="storage" class="op-style" onchange="changestorsge()">
                 <option>請選擇容量</option>
-                <option value="">64GB</option>
-                <option value="">256GB</option>
+                <option value="64GB">64GB</option>
+                <option value="256GB">256GB</option>
             </select>
             
             <select id="network" class="op-style" onchange="changenetwork()">
                 <option>請選擇網路</option>
-                <option value="">Wi-Fi</option>
-                <option value="">Wi-Fi+行動網路</option>
+                <option value="Wi-Fi">Wi-Fi</option>
+                <option value="Wi-Fi+行動網路">Wi-Fi+行動網路</option>
             </select>
             <button id="search" onclick="search()">確定</button>
             
@@ -48,41 +48,49 @@
         const url = "https://raw.githubusercontent.com/wuguanyiyi/JS-iPad-Air-AJAX/main/iPad.json";
         let ipad = {};
         function changecolor(){
-            let color = document.getElementById('color').value;
-        }
+            let color = document.getElementById('color').value; 
+            selectcolor = color;
+        }   
         function changestorsge(){
             let storage = document.getElementById('storage').value;
+            selectstorage = storage;
         }
         function changenetwork(){
             let network = document.getElementById('network').value;
+            selectnetwork = network
         }
         function search(){
-            ipad.color = color;
-            ipad.storage = storage;
-            ipad.network = network;
+            ipad.color = selectcolor;
+            ipad.storage = selectstorage;
+            ipad.network = selectnetwork;
+
         }
     
         window.onload = function () {
-            // let search = document.getElementById('search');
-            // search.addEventListener("click",requestJSON);
+            
             document.querySelector("#search").addEventListener("click", requestJSON);
         }
-        let ipadArry = [];
-        let price,picture;
+        let ipadprice;
+        let tolprice;
         let xhr = new XMLHttpRequest(); //使用XMLHttpRequest讀取json數據
         function requestJSON(){
             xhr.onload = function(){
                 ipadArray=this.response;
                 
-    
-                let query = ipadArray.filter(item => item.color == ipad.color && item.storage == ipad.storage && item.network == ipad.network);
-                // document.getElementById('price').innerHTML = `NT$ ${query[0]}`;
-                // document.getElementById('img').src = query[0];
 
 
-                document.getElementById('price').innerHTML = query[0].price;
-                document.getElementById('img').src = query[0].picture;
-                        
+                //let query = ipadArray.filter(item => item.color == ipad.color && item.storage == ipad.storage && item.network == ipad.network);
+                ipadArray.forEach(element => {
+                        if(element.color == ipad.color && element.storage == ipad.storage && element.network == ipad.network){
+                            tolprice = element.price
+                            
+                        }
+                    
+                });
+                console.log(tolprice)
+                document.getElementById('price').innerText = tolprice;
+
+                       
             }
             xhr.open("GET",url);
             xhr.responseType = "json";
@@ -96,13 +104,12 @@
     //     
     //     xhr.onload = function(){
     //         if (xhr.status === 200) {
-               
+
     //             const data = JSON.parse(xhr.responseText);
     //             console.log(data);
     //         } else {
     //             console.error('Request failed. Status code:', xhr.status);
     //         }
-
     //     }
     //     xhr.onerror = () => {
     //         console.error('Request failed. Network error.');
