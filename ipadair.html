@@ -44,12 +44,13 @@
     </div>
 
     <script>
-        
+        let pic = document.querySelector('#img')
         const url = "https://raw.githubusercontent.com/wuguanyiyi/JS-iPad-Air-AJAX/main/iPad.json";
         let ipad = {};
         function changecolor(){
             let color = document.getElementById('color').value; 
             selectcolor = color;
+            
         }   
         function changestorsge(){
             let storage = document.getElementById('storage').value;
@@ -69,6 +70,9 @@
         window.onload = function () {
             
             document.querySelector("#search").addEventListener("click", requestJSON);
+            document.querySelector("#search").addEventListener("click", function() {
+                pic.src = ipad.picture;
+            });
         }
         let ipadprice;
         let tolprice;
@@ -77,20 +81,14 @@
             xhr.onload = function(){
                 ipadArray=this.response;
                 
-
-
-                //let query = ipadArray.filter(item => item.color == ipad.color && item.storage == ipad.storage && item.network == ipad.network);
                 ipadArray.forEach(element => {
-                        if(element.color == ipad.color && element.storage == ipad.storage && element.network == ipad.network){
-                            tolprice = element.price
-                            
+                        if(element.color == ipad.color && element.storage == ipad.storage && element.network == ipad.network ){
+                            tolprice = element.price;
+                            ipad.picture = element.picture;
                         }
-                    
                 });
                 console.log(tolprice)
                 document.getElementById('price').innerText = tolprice;
-
-                       
             }
             xhr.open("GET",url);
             xhr.responseType = "json";
